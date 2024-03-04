@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './timer.css';
 import soundFile from './media/sound.mp3';
 
@@ -9,7 +9,7 @@ const Timer = () => {
     const [inputSeconds, setInputSeconds] = useState('');
     const [isActive, setIsActive] = useState(false);
     const [showReset, setShowReset] = useState(false);
-    const [audio, setAudio] = useState(null);
+    const audioRef = useRef(new Audio(soundFile));
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -28,9 +28,6 @@ const Timer = () => {
         return () => clearInterval(interval);
     }, [isActive, time]);
 
-    useEffect(() => {
-        setAudio(new Audio(soundFile));
-    }, []);
 
     const handleStartTimer = () => {
         setIsActive(true);
@@ -81,12 +78,12 @@ const Timer = () => {
     };
 
     const playSound = () => {
-        audio.play();
+        audioRef.current.play();
     };
 
     const pauseSound = () => {
-        if (audio) {
-            audio.pause();
+        if (audioRef.current) {
+            audioRef.current.pause();
         }
     };
 
