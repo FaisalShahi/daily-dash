@@ -1,0 +1,57 @@
+.timer {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(6, 99, 131);
+    display: flex;
+    justify-content: center;
+    /* margin: auto; */
+}
+
+.container {
+    padding-top: 200px;
+    margin-left: 350px;
+}
+
+.timer_container {
+    background-color: aliceblue;
+    width: 50vw;
+    padding: 1rem 6rem;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 1rem -0.7rem rgb(11, 40, 56);
+}
+
+.title {
+    color: rgb(6, 99, 131);
+}
+
+.running_time {
+    display: inline-block;
+    background-color: rgb(6, 99, 131);
+    color: aliceblue;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+.buttons button {
+    margin-right: 10px;
+}
+
+.stop,
+.reset {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: aliceblue;
+    font-size: 20px;
+    font-weight: 550;
+    background-color: rgb(6, 99, 131);
+    width: 130px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.stop {
+    margin-left: 15px;
+    padding-left: 10px;
+}
