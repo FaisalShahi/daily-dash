@@ -10,6 +10,7 @@ const Timer = () => {
     const [isActive, setIsActive] = useState(false);
     const [showReset, setShowReset] = useState(false);
     const [audio, setAudio] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         let interval;
@@ -21,7 +22,7 @@ const Timer = () => {
         } else if (time === 0) {
             clearInterval(interval);
             playSound();
-            alert("Timer has ended!");
+            setShowModal(true);
         }
 
         return () => clearInterval(interval);
@@ -89,45 +90,75 @@ const Timer = () => {
         }
     };
 
-    return (
-        <div className="timer">
-            <div className="container">
-                <div className="timer_container">
-                    <h1 className='title'>Timer App <i class='fas fa-stopwatch'></i></h1>
-                    <h1 className='running_time'>{formatTime(time)}</h1>
-                    <div className="buttons">
-                        {!isActive && <button className='stop' onClick={handleStartTimer}>Start</button>}
-                        {isActive && <button className='stop' onClick={handleStopTimer}>Stop</button>}
-                        {showReset && <button className='reset' onClick={handleResetTimer}>Reset</button>}
-                    </div>
-                    <div className="input_container">
-                        <input
-                            type="number"
-                            value={inputHours}
-                            onChange={handleHoursChange}
-                            min="0"
-                            placeholder="hr"
-                        />
-                        <input
-                            type="number"
-                            value={inputMinutes}
-                            onChange={handleMinutesChange}
-                            min="0"
-                            placeholder="min"
-                        />
-                        <input
-                            type="number"
-                            value={inputSeconds}
-                            onChange={handleSecondsChange}
-                            min="0"
-                            placeholder="sec"
-                        />
-                        <button onClick={handleSetTime}>Set timer</button>
-                    </div>
+    const closeModal = () => {
+        setShowModal(false);
+        pauseSound();
+    };
 
+    const Modal = () => {
+        return (
+            <div className="modal" tabIndex="-1" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Time's Up!</h5>
+                            <button type="button" className="close" onClick={closeModal} aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p>Time's up! Please close this dialog.</p>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        );
+    };
+
+    return (
+        <>
+            {showModal && <Modal />}
+            <div className="timer">
+                <div className="container">
+                    <div className="timer_container">
+                        <h1 className="title">Timer App <i className="fas fa-stopwatch"></i></h1>
+                        <h1 className="running_time">{formatTime(time)}</h1>
+                        <div className="buttons">
+                            {!isActive && <button className="stop" onClick={handleStartTimer}>Start</button>}
+                            {isActive && <button className="stop" onClick={handleStopTimer}>Stop</button>}
+                            {showReset && <button className="reset" onClick={handleResetTimer}>Reset</button>}
+                        </div>
+                        <div className="input_container">
+                            <input
+                                type="number"
+                                value={inputHours}
+                                onChange={handleHoursChange}
+                                min="0"
+                                placeholder="hr"
+                            />
+                            <input
+                                type="number"
+                                value={inputMinutes}
+                                onChange={handleMinutesChange}
+                                min="0"
+                                placeholder="min"
+                            />
+                            <input
+                                type="number"
+                                value={inputSeconds}
+                                onChange={handleSecondsChange}
+                                min="0"
+                                placeholder="sec"
+                            />
+                            <button onClick={handleSetTime}>Set timer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 
