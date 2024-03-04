@@ -4,7 +4,6 @@
     background-color: rgb(6, 99, 131);
     display: flex;
     justify-content: center;
-    /* margin: auto; */
 }
 
 .container {
@@ -22,6 +21,17 @@
 
 .title {
     color: rgb(6, 99, 131);
+    font-size: 36px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title i {
+    margin-left: 10px;
+    font-size: 24px;
+    color: rgb(6, 99, 131);
 }
 
 .running_time {
@@ -30,6 +40,46 @@
     color: aliceblue;
     padding: 0 5px;
     border-radius: 5px;
+}
+
+.input_container {
+    display: inline-block;
+    background-color: rgb(6, 99, 131);
+    color: aliceblue;
+    padding-top: 0px;
+    border-radius: 5px;
+}
+
+.input_container input {
+    width: 60px;
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.input_container button {
+    color: aliceblue;
+    font-size: 16px;
+    font-weight: 550;
+    background-color: rgb(6, 99, 131);
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 1rem 1rem -0.7rem rgb(11, 40, 56);
+}
+
+.input_container button:hover,
+.buttons button:hover {
+    background-color: #075867;
+}
+
+.input_container button:focus,
+.buttons button:focus {
+    outline: none;
 }
 
 .buttons button {
