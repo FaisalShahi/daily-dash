@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './todo.css';
+import { v4 as uuidv4 } from 'uuid';
 
 const getCurrentDate = () => {
     const currentDate = new Date().toISOString().slice(0, 10);
@@ -40,8 +41,8 @@ const TodoItem = ({ todo, index, onDelete, onUpdate, onShowMore, expanded }) => 
             </td>
             <td>{todo.date}</td>
             <td>
-                <button style={{ marginRight: '10px' }} type="button" className="btn btn-danger" onClick={() => onDelete(index)}>Delete</button>
-                <button type="button" className="btn btn-primary" onClick={() => onUpdate(index, todo.title, todo.description, todo.date)}>Update</button>
+                <button style={{ marginRight: '10px' }} type="button" className="btn btn-danger" onClick={() => onDelete(todo.id)}>Delete</button>
+                <button type="button" className="btn btn-primary" onClick={() => onUpdate(todo.id)}>Update</button>
             </td>
         </tr>
     );
@@ -109,7 +110,7 @@ const Todo = () => {
     const [filterDate, setFilterDate] = useState(getCurrentDate());
     const [expandedTodoIndex, setExpandedTodoIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [modalData, setModalData] = useState();
+    const [modalData, setModalData] = useState(null);
     const [modalTitle, setModalTitle] = useState('');
     const [modalDescription, setModalDescription] = useState('');
     const [modalDate, setModalDate] = useState('');
@@ -124,32 +125,28 @@ const Todo = () => {
             alert('Description must be between 2 and 120 characters long.');
             return;
         }
-        const newTodo = { title, description, date };
+        const newTodo = { id: uuidv4(), title, description, date };
         setTodos(prevTodos => [...prevTodos, newTodo]);
         setTitle('');
         setDescription('');
         setDate(getCurrentDate());
     }, [title, description, date]);
 
-    const handleDeleteTodo = useCallback((index) => {
-        const newTodos = [...todos];
-        newTodos.splice(index, 1);
+    const handleDeleteTodo = useCallback((id) => {
+        const newTodos = todos.filter(todo => todo.id !== id);
         setTodos(newTodos);
     }, [todos]);
 
     const handleUpdateTodo = useCallback(
-        (index, updatedTitle, updatedDescription, updatedDate) => {
+        (id) => {
             setShowModal(true);
-            console.log('todo=>', index, ':', todos[index]);
-            setModalData(todos[index]);
-            setModalTitle(updatedTitle)
-            setModalDescription(updatedDescription)
-            setModalDate(updatedDate)
-            const updatedTodos = [...todos];
-            updatedTodos[index].title = updatedTitle;
-            updatedTodos[index].description = updatedDescription;
-            updatedTodos[index].date = updatedDate
-            setTodos(updatedTodos);
+            const todo = todos.find(todo => todo.id === id);
+            if (todo) {
+                setModalData(todo);
+                setModalTitle(todo.title);
+                setModalDescription(todo.description);
+                setModalDate(todo.date);
+            }
         },
         [todos]
     );
@@ -159,13 +156,19 @@ const Todo = () => {
     }, [expandedTodoIndex]);
 
     const handleSaveChanges = () => {
-        handleUpdateTodo(
-            todos.findIndex(todo => todo === modalData),
-            modalTitle,
-            modalDescription,
-            modalDate
+        const updatedTodos = todos.map(todo =>
+            todo.id === modalData.id ? { ...todo, title: modalTitle, description: modalDescription, date: modalDate } : todo
         );
-        closeModal()
+        if (modalTitle.length < 2 || modalTitle.length > 60) {
+            alert('Title must be between 2 and 60 characters long.');
+            return;
+        }
+        if (modalDescription.length < 2 || modalDescription.length > 120) {
+            alert('Description must be between 2 and 120 characters long.');
+            return;
+        }
+        setTodos(updatedTodos);
+        closeModal();
     };
 
     const closeModal = () => {
@@ -250,7 +253,7 @@ const Todo = () => {
                 <tbody>
                     {filteredTodos.map((todo, index) => (
                         <TodoItem
-                            key={index}
+                            key={todo.id}
                             todo={todo}
                             index={index}
                             onDelete={handleDeleteTodo}
