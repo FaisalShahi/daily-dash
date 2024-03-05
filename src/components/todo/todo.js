@@ -116,7 +116,7 @@ const Todo = () => {
     const [modalDate, setModalDate] = useState('');
 
     const handleAddTodo = useCallback(() => {
-        if (!title || !description || !date) return;
+        // if (!title || !description || !date) return;
         if (title.length < 2 || title.length > 60) {
             alert('Title must be between 2 and 60 characters long.');
             return;
