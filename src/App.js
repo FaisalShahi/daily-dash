@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Menu from './components/menu/menu.js';
-import Todo from './components/todo/todo.js';
-import Timer from './components/timer/timer.js'
+import Menu from './components/menu/Menu.js';
+import Todo from './components/todo/Main.js';
+import Timer from './components/timer/Timer.js'
 
 function App() {
   return (

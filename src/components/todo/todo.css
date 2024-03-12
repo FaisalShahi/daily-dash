@@ -31,3 +31,11 @@
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
+/* MODAL CSS */
+.form-group {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    text-align: left;
+}
