@@ -55,8 +55,7 @@ const Modal = ({ showModal, closeModal, modalMode, title, description, date, set
                             <input
                                 className='date-input'
                                 type="date"
-                                value={modalMode === 'add' ? getCurrentDate() : modalDate}
-                                // value={modalDate}
+                                value={modalMode === 'add' ? date : modalDate}
                                 onChange={(e) => modalMode === 'add' ? setDate(e.target.value) : setModalDate(e.target.value)}
                             />
                         </div>
